@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> your Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nabla&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Nabla&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Nabla&family=Poltawski+Nowy:ital,wght@0,400..700;1,400..700&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Nabla&family=Poltawski+Nowy:ital,wght@0,400..700;1,400..700&family=Sedgwick+Ave+Display&family=Yatra+One&display=swap" rel="stylesheet">
+
+</head>
+<body style="background-color: rgba(245, 245, 220, 0.432);">
+    <nav style="padding-top: 0;padding-bottom: 0;" class="navbar navbar-expand-lg bg-body-tertiary" >
+        <div style="background-color:darkcyan; padding-left: 10%;padding-right: 10%;" class="container-fluid" >
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01" >
+            <img src="/static/bot-removebg-preview.png" alt="Mon Image" style="width: 45px;" id="refreshImage">
+
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a style="color: black;" class="nav-link active" aria-current="page" href="#" onclick="changeTitle('discution')">discussion chatbot</a>
+              </li>
+              <li class="nav-item">
+                <a style="color: black;" class="nav-link" href="#" onclick="changeTitle('cloud')">cloud chatbot</a>
+              </li>
+              <li class="nav-item">
+                <a style="color: black;" class="nav-link" href="C:\Users\elgha\mon_projet_flask_2\templates\medecin.html" onclick="changeTitle('medecin')">medecin chatbot</a>
+              </li>
+
+              <li class="nav-item">
+                <a style="color: black;" class="nav-link" href="#" onclick="changeTitle('technologies')">technologies chatbot</a>
+              </li>
+              <li class="nav-item">
+                <a style="color: black;" class="nav-link" href="#" onclick="changeTitle('agriculture')">agriculture chatbot</a>
+              </li>
+
+              <li class="nav-item">
+                <a style="color: black;" class="nav-link" href="#" onclick="changeTtl('about us')">about us</a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </nav>
+    
+    <h1 id="pageTitle"  style="    margin: 30px;
+    text-shadow: 5px 0 #464749;
+    font-size: 8rem;
+    color: #88b3a4;
+    
+    font-family: 'Yatra One', system-ui;
+    font-weight: 400;
+    font-style: normal;
+    
+    text-align: center;">your discussion Chatbot</h1>
+    <div id="chatbox" ></div>
+    <form id="chat-form" style="padding-left: 200px;padding-right: 200px;">    
+
+        <div class="input-group flex-nowrap" style="margin-bottom: 20px;">
+            <span class="input-group-text" id="addon-wrapping">&#129302</span>
+            <input type="text" id="user-message" placeholder="Enter your message" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+            <button type="submit" class="btn btn-dark">Send</button>
+
+        </div>
+        
+    </form>
+    <img src="\static\work-in-progress.gif" alt="loading" style="width: 30px;" id="loading">
+
+
+
+
+    <script>
+        function changeTitle(title) {
+            document.getElementById("pageTitle").innerText = "Your " + title.charAt(0).toUpperCase() + title.slice(1) + " Chatbot";
+        }
+        function changeTtl(ttl){
+            document.getElementById("pageTitle").innerHTML = "About us"
+        }
+        document.getElementById("refreshImage").addEventListener("click", function() {
+            location.reload(); // Cette ligne actualisera la page lors du clic sur l'image
+        });
+        document.getElementById("addon-wrapping").addEventListener("click", function() {
+            location.reload(); // Cette ligne actualisera la page lors du clic sur l'image
+        });        
+        document.getElementById("chat-form").addEventListener("submit", async function(event) {
+            event.preventDefault(); // prevent form submission
+
+            // Afficher le cercle de chargement
+        
+
+            const userMessage = document.getElementById("user-message").value;
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ user_message: userMessage })
+            });
+            const data = await response.json();
+            // Cacher le cercle de chargement
+        
+            document.getElementById("chatbox").innerHTML += `<div class="user_bot"><p class="text" ><span class="talker">User :        </span> ${userMessage} </p></div>`;
+
+
+        setTimeout(() => {
+            document.getElementById("chatbox").innerHTML += `<div class="user_bot" style="margin-top: 10px;"><p class="text"><span class="talker">Bot :  </span>    ${data.bot_response}</p></div>`;
+        },1000);
+
+            var text = document.getElementById("user-message");
+            text.value = "" ;
+        });
+    </script>
+</body>
+</html>
+
